@@ -85,3 +85,43 @@ export async function GET() {
 | Date | Changes |
 |------|---------|
 | Initial | Template created with base setup |
+| 2026-02-24 | Built Heritage Trail Flutter app + Next.js CMS with municipality map filter |
+
+## Recently Completed
+
+- [x] Flutter mobile app (`heritage_app/`) with bilingual EN/NE support
+- [x] Google Maps integration with historic place markers by category
+- [x] Municipality/Rural Municipality map filter (Province → District → Municipality)
+- [x] Place detail screen: text, audio guide, video tour, photo gallery
+- [x] GPS navigation with shortest path and turn-by-turn directions
+- [x] Next.js CMS at `/cms/` with sidebar navigation
+- [x] CMS Dashboard with stats, budget overview, progress charts
+- [x] CMS Historic Places management table
+- [x] CMS Municipality Map Filter page (all 7 provinces, 20+ districts, 100+ units)
+- [x] CMS Projects management with physical & financial progress bars
+- [x] CMS Ping Location with GPS + Province/District/Municipality selector
+- [x] CMS Progress Tracking with milestones and ping history
+- [x] Nepal administrative data: 7 provinces, municipalities & rural municipalities
+
+## Current Structure (Added)
+
+| File/Directory | Purpose |
+|----------------|---------|
+| `heritage_app/` | Flutter mobile app |
+| `heritage_app/lib/main.dart` | App entry point, routing |
+| `heritage_app/lib/l10n/` | EN/NE ARB localization files |
+| `heritage_app/lib/models/` | HistoricPlace, Municipality models |
+| `heritage_app/lib/screens/` | Home, Map, PlaceDetail, Navigation, Settings |
+| `heritage_app/lib/providers/` | Riverpod state providers |
+| `heritage_app/lib/services/` | LocationService (GPS, routing) |
+| `heritage_app/lib/widgets/` | PlaceCard, CategoryChip, SearchBar |
+| `src/app/cms/` | CMS admin panel |
+| `src/app/cms/dashboard/` | Stats dashboard |
+| `src/app/cms/places/` | Historic places CRUD |
+| `src/app/cms/map/` | Municipality map filter |
+| `src/app/cms/projects/` | Projects management |
+| `src/app/cms/projects/ping/` | GPS ping with municipality selector |
+| `src/app/cms/progress/` | Progress tracking |
+| `src/lib/data.ts` | Sample data (places, projects) |
+| `src/lib/nepal-municipalities.ts` | Nepal admin divisions data |
+| `src/types/index.ts` | TypeScript interfaces |
