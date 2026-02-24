@@ -1,14 +1,21 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { samplePlaces } from '@/lib/data';
+import { samplePlaces, sampleProjects, getDashboardStats } from '@/lib/data';
 
 const featuredPlaces = samplePlaces.filter(p => p.is_featured);
+const stats = getDashboardStats();
+
+// Calculate category counts from actual data
+const categoryCounts = samplePlaces.reduce((acc, place) => {
+  acc[place.category] = (acc[place.category] || 0) + 1;
+  return acc;
+}, {} as Record<string, number>);
 
 const categories = [
-  { id: 'temple', label: 'Temples', icon: '🛕', count: 156 },
-  { id: 'stupa', label: 'Stupas', icon: '🏯', count: 89 },
-  { id: 'durbar', label: 'Durbar Squares', icon: '🏰', count: 42 },
-  { id: 'monument', label: 'Monuments', icon: '🗿', count: 78 },
+  { id: 'temple', label: 'Temples', icon: '🛕', count: categoryCounts['temple'] || 0 },
+  { id: 'stupa', label: 'Stupas', icon: '🏯', count: categoryCounts['stupa'] || 0 },
+  { id: 'durbar', label: 'Durbar Squares', icon: '🏰', count: categoryCounts['durbar'] || 0 },
+  { id: 'monument', label: 'Monuments', icon: '🗿', count: categoryCounts['monument'] || 0 },
 ];
 
 export default function HomePage() {
@@ -362,61 +369,39 @@ export default function HomePage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                name: 'Pashupatinath Temple Restoration',
-                location: 'Kathmandu',
-                progress: 62,
-                status: 'Ongoing',
-                budget: 'NPR 15M',
-              },
-              {
-                name: 'Boudhanath Stupa Conservation',
-                location: 'Kathmandu',
-                progress: 40,
-                status: 'Ongoing',
-                budget: 'NPR 8M',
-              },
-              {
-                name: 'Patan Durbar Square Infrastructure',
-                location: 'Lalitpur',
-                progress: 100,
-                status: 'Completed',
-                budget: 'NPR 5M',
-              },
-            ].map((project, idx) => (
-              <div key={idx} className="bg-stone-50 rounded-2xl p-6 border border-stone-200">
+            {sampleProjects.slice(0, 3).map((project) => (
+              <div key={project.id} className="bg-stone-50 rounded-2xl p-6 border border-stone-200">
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <h3 className="text-lg font-bold text-stone-800 mb-1">{project.name}</h3>
-                    <p className="text-stone-500 text-sm">📍 {project.location}</p>
+                    <p className="text-stone-500 text-sm">📍 {project.location_name}</p>
                   </div>
                   <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                    project.status === 'Completed' 
+                    project.status === 'completed' 
                       ? 'bg-green-100 text-green-700' 
                       : 'bg-amber-100 text-amber-700'
                   }`}>
-                    {project.status}
+                    {project.status === 'completed' ? 'Completed' : 'Ongoing'}
                   </span>
                 </div>
                 
                 <div className="mb-4">
                   <div className="flex justify-between text-sm mb-2">
                     <span className="text-stone-600">Progress</span>
-                    <span className="font-semibold text-stone-800">{project.progress}%</span>
+                    <span className="font-semibold text-stone-800">{project.physical_progress}%</span>
                   </div>
                   <div className="h-2 bg-stone-200 rounded-full overflow-hidden">
                     <div 
                       className={`h-full rounded-full transition-all duration-500 ${
-                        project.progress === 100 ? 'bg-green-500' : 'bg-amber-500'
+                        project.physical_progress === 100 ? 'bg-green-500' : 'bg-amber-500'
                       }`}
-                      style={{ width: `${project.progress}%` }}
+                      style={{ width: `${project.physical_progress}%` }}
                     ></div>
                   </div>
                 </div>
                 
                 <div className="text-sm text-stone-500">
-                  Budget: <span className="font-semibold text-stone-700">{project.budget}</span>
+                  Budget: <span className="font-semibold text-stone-700">NPR {(project.budget_total / 1000000).toFixed(1)}M</span>
                 </div>
               </div>
             ))}

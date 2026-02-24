@@ -57,6 +57,13 @@ export default function CMSLayout({
         </nav>
 
         <div className="p-4 border-t border-red-800">
+          <Link
+            href="/"
+            className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-amber-400 hover:bg-red-800 hover:text-amber-300 mb-3"
+          >
+            <span className="text-xl">🌐</span>
+            <span className="text-sm">View Public Site</span>
+          </Link>
           <div className="text-red-300 text-xs text-center">
             Heritage Trail CMS v1.0
           </div>
